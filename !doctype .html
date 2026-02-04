@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentinstag 💘</title>
+  <style>
+    :root{
+      --pink:#ff4d8d;
+      --bg1:#fff0f6;
+      --bg2:#ffe6f0;
+      --text:#2b2b2b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(800px 400px at 20% 10%, #fff 0%, rgba(255,255,255,0) 60%),
+        radial-gradient(800px 400px at 80% 90%, #fff 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+
+    .card{
+      width:min(720px, 92vw);
+      padding:28px 22px;
+      border-radius:24px;
+      background:rgba(255,255,255,.75);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.10);
+      text-align:center;
+      position:relative;
+      transition: transform .7s ease, box-shadow .7s ease;
+      transform-origin: center;
+    }
+
+    h1{
+      margin: 8px 0 14px;
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing: .2px;
+      transition: opacity .4s ease, transform .7s ease;
+    }
+    p{
+      margin: 0 0 18px;
+      font-size: 16px;
+      opacity:.9;
+      transition: opacity .4s ease, transform .7s ease;
+    }
+
+    .art{
+      width:min(340px, 76vw);
+      aspect-ratio: 1 / 1;
+      margin: 12px auto 18px;
+      border-radius: 28px;
+      display:grid;
+      place-items:center;
+      position:relative;
+      background:
+        radial-gradient(circle at 30% 30%, #fff 0%, rgba(255,255,255,0) 55%),
+        linear-gradient(145deg, #ffd1e3, #fff);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8),
+                  0 18px 40px rgba(255,77,141,.18);
+      overflow:hidden;
+      transition: transform .8s cubic-bezier(.2,.9,.2,1), box-shadow .8s ease;
+    }
+    .art::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: conic-gradient(from 180deg, rgba(255,77,141,.0), rgba(255,77,141,.25), rgba(255,77,141,.0));
+      animation: spin 6s linear infinite;
+    }
+    @keyframes spin{ to{ transform: rotate(360deg); } }
+
+    .heart{
+      position:relative;
+      z-index:1;
+      font-size: 104px;
+      filter: drop-shadow(0 10px 18px rgba(255,77,141,.30));
+      transform: translateY(-2px);
+      user-select:none;
+      transition: transform .8s cubic-bezier(.2,.9,.2,1), font-size .8s ease;
+    }
+
+    .btnRow{
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      flex-wrap:wrap;
+      padding: 10px 0 6px;
+      position:relative;
+      min-height: 70px;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    button{
+      border:0;
+      border-radius: 999px;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: 650;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .2s ease, background .2s ease, opacity .2s ease;
+      user-select:none;
+      touch-action: manipulation;
+    }
+    #yesBtn{
+      background: linear-gradient(135deg, var(--pink), #ff2b73);
+      color:white;
+      box-shadow: 0 14px 28px rgba(255,77,141,.28);
+    }
+    #yesBtn:hover{ transform: translateY(-1px) scale(1.01); }
+    #yesBtn:active{ transform: translateY(1px) scale(.99); }
+
+    #noBtn{
+      position:absolute;
+      background: white;
+      color: var(--pink);
+      border: 2px solid rgba(255,77,141,.35);
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      left: 52%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .msg{
+      margin-top: 8px;
+      min-height: 32px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .45s ease, transform .45s ease;
+      font-size: clamp(26px, 4.5vw, 44px);
+      font-weight: 800;
+      color: #c2185b;
+      letter-spacing: .3px;
+      text-shadow: 0 12px 30px rgba(255,77,141,.18);
+    }
+    .msg.show{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .note{
+      font-size: 13px;
+      opacity:.75;
+      margin-top: 10px;
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    /* Fokus-Mode nach JA */
+    .accepted .btnRow,
+    .accepted .note{
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events:none;
+    }
+    .accepted .btnRow{ height:0; min-height:0; padding:0; margin:0; }
+    .accepted h1,
+    .accepted p{
+      opacity: 0;
+      transform: translateY(-8px);
+      height:0;
+      margin:0;
+      overflow:hidden;
+    }
+    .accepted .card{
+      transform: scale(1.06);
+      box-shadow: 0 26px 80px rgba(0,0,0,.12);
+    }
+    .accepted .art{
+      transform: scale(1.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8),
+                  0 28px 70px rgba(255,77,141,.22);
+    }
+    .accepted .heart{
+      transform: translateY(-2px) scale(1.08);
+    }
+
+    .confetti{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      overflow:hidden;
+      display:none;
+    }
+    .confetti.show{ display:block; }
+  </style>
+</head>
+<body>
+  <div class="cardWrap" id="wrap">
+    <div class="card" id="card">
+      <h1>Willst du mein Valentinstags-Date sein? 💘</h1>
+      <p>Ich verspreche: viel Liebe, viel Lachen und ein richtig schöner Abend.</p>
+
+      <div class="art" aria-hidden="true">
+        <div class="heart" id="heart">💖</div>
+      </div>
+
+      <div class="btnRow" id="arena">
+        <button id="yesBtn">Ja 😍</button>
+        <button id="noBtn" aria-label="Nein">Nein 🙈</button>
+      </div>
+
+      <div class="msg" id="msg">Ich liebe dich</div>
+      <div class="note">P.S. Der „Nein“-Button ist etwas schüchtern 😄</div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const arena = document.getElementById('arena');
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const msg = document.getElementById('msg');
+    const confetti = document.getElementById('confetti');
+    const card = document.getElementById('card');
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function moveNoButton() {
+      const a = arena.getBoundingClientRect();
+      const b = noBtn.getBoundingClientRect();
+
+      const pad = 6;
+      const maxX = a.width - b.width - pad;
+      const maxY = a.height - b.height - pad;
+
+      if (maxX < 10 || maxY < 10) arena.style.minHeight = "140px";
+
+      const x = Math.random() * clamp(maxX, 20, 9999);
+      const y = Math.random() * clamp(maxY, 10, 9999);
+
+      noBtn.style.left = (pad + x) + "px";
+      noBtn.style.top  = (pad + y) + "px";
+      noBtn.style.transform = "none";
+    }
+
+    function onPointerMove(e){
+      const btn = noBtn.getBoundingClientRect();
+      const dx = e.clientX - (btn.left + btn.width/2);
+      const dy = e.clientY - (btn.top + btn.height/2);
+      const dist = Math.hypot(dx, dy);
+      if(dist < 140) moveNoButton();
+    }
+
+    noBtn.addEventListener('pointerenter', moveNoButton);
+    noBtn.addEventListener('pointerdown', moveNoButton);
+    window.addEventListener('pointermove', onPointerMove);
+    requestAnimationFrame(moveNoButton);
+
+    yesBtn.addEventListener('click', () => {
+      // Fokus-Mode aktivieren
+      document.body.classList.add('accepted');
+      card.classList.add('accepted');
+
+      // Buttons wirklich entfernen (damit nix mehr klickbar ist)
+      arena.style.display = "none";
+
+      // Text in der Mitte zeigen
+      msg.classList.add('show');
+
+      // EXTRA viel Konfetti (mehr + länger)
+      launchConfetti({ count: 260, durationMs: 6500 });
+      setTimeout(() => launchConfetti({ count: 220, durationMs: 6500 }), 450); // zweite Welle
+      setTimeout(() => launchConfetti({ count: 180, durationMs: 6500 }), 900); // dritte Welle
+    });
+
+    function launchConfetti({count=140, durationMs=4500} = {}){
+      confetti.classList.add('show');
+
+      // nicht komplett leeren, sonst flackert es bei den "Wellen"
+      const icons = ["💖","💘","💝","💕","❤️","✨","🌸"];
+
+      for(let i=0;i<count;i++){
+        const s = document.createElement('div');
+        s.textContent = icons[Math.floor(Math.random()*icons.length)];
+        s.style.position="absolute";
+        s.style.left = Math.random()*100 + "vw";
+        s.style.top  = (-10 - Math.random()*25) + "vh";
+        s.style.fontSize = (16 + Math.random()*28) + "px";
+        s.style.opacity = 0.95;
+        s.style.transform = `rotate(${Math.random()*360}deg)`;
+
+        const drift = (Math.random() * 40 - 20); // seitliches Driften
+        const fall = 115 + Math.random()*35;
+        const dur = (durationMs/1000) * (0.85 + Math.random()*0.35);
+
+        s.animate([
+          { transform: s.style.transform + ` translate(${drift}vw, 0vh)`, opacity: 1 },
+          { transform: s.style.transform + ` translate(${drift}vw, ${fall}vh)`, opacity: 0.05 }
+        ], { duration: dur*1000, easing: "cubic-bezier(.2,.8,.2,1)", fill:"forwards" });
+
+        confetti.appendChild(s);
+
+        // aufräumen (DOM nicht endlos wachsen lassen)
+        setTimeout(() => s.remove(), dur*1000 + 200);
+      }
+
+      // Confetti-Layer nach einer Weile ausblenden (wenn nichts mehr drin ist)
+      setTimeout(() => {
+        if(confetti.childElementCount === 0) confetti.classList.remove('show');
+      }, durationMs + 1200);
+    }
+  </script>
+
+  <script>
+    // Body-Klasse "accepted" für Fokus-Mode (CSS nutzt .accepted)
+    // Wir setzen sie oben via JS; hier nur zur Sicherheit:
+  </script>
+</body>
+</html>
